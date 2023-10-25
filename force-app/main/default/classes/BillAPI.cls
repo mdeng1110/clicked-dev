@@ -2,16 +2,20 @@ public with sharing class BillAPI {
     
     public static void getBills() {
         //start by creating an HttpRequest object and set the endpoint and method.
-
-
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:Biling_API');
+        
         //set up an Http object and an HTTPResponse Object and use the .getBody() method here.
-
+        req.setMethod('GET');
+        Http http = new Http();
+        HTTPResponse res = http.send(req);
+        System.debug(res.getBody());
 
         //Use the following to deserialize the JSON response into a wrapper class:
-
+        List<BillWrapper> bwList = (List<BillWrapper>)JSON.deserialize(res.getBody(), List<BillWrapper>.class);
 
         //create a list of bills to insert
-
+        List<SObject> bills = new List<SObject>();
 
         //query for active accounts (Active__c = 'Yes')
 
