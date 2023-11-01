@@ -38,20 +38,40 @@
     </apex:panelGrid>
     -->
 
-    <apex:panelGrid columns="1" id="theGrid">
+    <apex:panelGrid columns="4" id="theGrid">
+        <apex:outputText value="Email" />
+        <br/>
         <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
+        <br/>
+        <apex:outputText value="Phone" />
+        <br/>
         <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
+        <br/>
         <apex:panelGroup id="billingAddressGroup">
+            <apex:outputText value="Billing Address" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingStreet" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingCity}" id="BillingCity" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingCountry}" id="BillingCountry" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingPostalCode}" id="BillingPostalCode" />
+            <br/>
+            <br/>
         </apex:panelGroup>
         <apex:panelGroup id="shippingAddressGroup">
+            <apex:outputText value="Shipping Address" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingStreet" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingCity}" id="ShippingCity" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingCountry}" id="ShippingCountry" />
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingPostalCode}" id="ShippingPostalCode" />
+            <br/>
+            <br/>
         </apex:panelGroup>
     </apex:panelGrid>
 
