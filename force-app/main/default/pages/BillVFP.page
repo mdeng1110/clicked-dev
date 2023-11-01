@@ -37,6 +37,7 @@
                 <apex:outputText value="Email" />
             </b>
             <br/>
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
             <br/>
         </apex:panelGroup>
@@ -46,6 +47,7 @@
                 <apex:outputText value="Phone" />
             </b>
             <br/>
+            <br/>
             <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
             <br/>
         </apex:panelGroup>
@@ -54,6 +56,7 @@
             <b>
                 <apex:outputText value="Billing Address" />
             </b>
+            <br/>
             <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingStreet" />
             <br/>
@@ -70,6 +73,7 @@
             <b>
                 <apex:outputText value="Shipping Address" />
             </b>
+            <br/>
             <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingStreet" />
             <br/>
