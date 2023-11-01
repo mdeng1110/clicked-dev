@@ -9,7 +9,6 @@ public with sharing class BillAPI {
         req.setMethod('GET');
         Http http = new Http();
         HTTPResponse res = http.send(req);
-        System.debug(res.getBody());
 
         //Use the following to deserialize the JSON response into a wrapper class:
         List<BillWrapper> bwList = (List<BillWrapper>)JSON.deserialize(res.getBody(), List<BillWrapper>.class);
@@ -29,7 +28,7 @@ public with sharing class BillAPI {
         // to insert the account name and Id as the key value pair.
         //https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_map.htm
         for (Account acct : accts) {
-            active_accts.put(acct.Name, acct.Id);
+            active_accts.put(acct.Name, acct.Id);    
         }
 
         //iterate over the list of BillWrappers, bwList, and create a new bill in each iteration.
@@ -41,8 +40,9 @@ public with sharing class BillAPI {
         for (BillWrapper bw : bwList) {
             if (active_accts.containsKey(bw.accountName)){
                 Bill__c bill = new Bill__c();
+ 
                 bill.Bill_Id__c = bw.billId;
-                bill.Account__c = bw.accountName;
+                bill.Account__c = active_accts.get(bw.accountName);
                 bill.Balance__c = Decimal.valueOf(bw.balance.replace('$', ''));
                 bills.add(bill);
             }

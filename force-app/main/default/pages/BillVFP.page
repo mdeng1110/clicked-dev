@@ -4,9 +4,9 @@
         can access the values for the fields in a table per documentation here:
         https://help.salesforce.com/s/articleView?id=000385722&type=1
     -->
-    <apex:outputText value="{!Bill__c.Name}" rendered="false"/>
-    <apex:outputText value="{!Bill__c.Balance__c}" rendered="false"/>
-    <apex:outputText value="{!Bill__c.Bill_Id__c}" rendered="false"/>
+    <apex:outputText value="{!Bill__c.Name}" rendered="false" />
+    <apex:outputText value="{!Bill__c.Balance__c}" rendered="false" />
+    <apex:outputText value="{!Bill__c.Bill_Id__c}" rendered="false" />
 
     <!--
         Because we are using the standard controller for the child object
@@ -29,11 +29,37 @@
         Hint: use apex:panelGrid and apex:PanelGroup to display this nicely.
     -->
 
+    <!--
+    <apex:panelGrid columns="3" id="theGrid">
+        <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
+        <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
+        <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingAddress" />
+        <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingAddress" />
+    </apex:panelGrid>
+    -->
+
+    <apex:panelGrid columns="1" id="theGrid">
+        <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
+        <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
+        <apex:panelGroup id="billingAddressGroup">
+            <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingStreet" />
+            <apex:outputText value="{!Bill__c.Account__r.BillingCity}" id="BillingCity" />
+            <apex:outputText value="{!Bill__c.Account__r.BillingCountry}" id="BillingCountry" />
+            <apex:outputText value="{!Bill__c.Account__r.BillingPostalCode}" id="BillingPostalCode" />
+        </apex:panelGroup>
+        <apex:panelGroup id="shippingAddressGroup">
+            <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingStreet" />
+            <apex:outputText value="{!Bill__c.Account__r.ShippingCity}" id="ShippingCity" />
+            <apex:outputText value="{!Bill__c.Account__r.ShippingCountry}" id="ShippingCountry" />
+            <apex:outputText value="{!Bill__c.Account__r.ShippingPostalCode}" id="ShippingPostalCode" />
+        </apex:panelGroup>
+    </apex:panelGrid>
+
 
     <!--
         Build a table showing the Bill Summary (Bill Name, Bill Balance, and Bill Id) here.
         Hint: use apex:pageBlockTable to display this in a table.
     -->
 
-    
+
 </apex:page>
