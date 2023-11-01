@@ -31,19 +31,25 @@
 
 
 
-    <apex:panelGrid columns="4" id="theGrid">
-        <b>
-            <apex:outputText value="Email" />
-        </b>
-        <br/>
-        <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
-        <br/>
-        <b>
-            <apex:outputText value="Phone" />
-        </b>
-        <br/>
-        <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
-        <br/>
+    <apex:panelGrid columns="2" id="theGrid">
+        <apex:panelGroup id="emailAddress">
+            <b>
+                <apex:outputText value="Email" />
+            </b>
+            <br/>
+            <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
+            <br/>
+        </apex:panelGroup>
+
+        <apex:panelGroup id="phoneNumber">
+            <b>
+                <apex:outputText value="Phone" />
+            </b>
+            <br/>
+            <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
+            <br/>
+        </apex:panelGroup>
+
         <apex:panelGroup id="billingAddressGroup">
             <b>
                 <apex:outputText value="Billing Address" />
@@ -59,6 +65,7 @@
             <br/>
             <br/>
         </apex:panelGroup>
+
         <apex:panelGroup id="shippingAddressGroup">
             <b>
                 <apex:outputText value="Shipping Address" />
