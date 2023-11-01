@@ -29,26 +29,25 @@
         Hint: use apex:panelGrid and apex:PanelGroup to display this nicely.
     -->
 
-    <!--
-    <apex:panelGrid columns="3" id="theGrid">
-        <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
-        <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
-        <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingAddress" />
-        <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingAddress" />
-    </apex:panelGrid>
-    -->
+
 
     <apex:panelGrid columns="4" id="theGrid">
-        <apex:outputText value="Email" />
+        <b>
+            <apex:outputText value="Email" />
+        </b>
         <br/>
         <apex:outputText value="{!Bill__c.Account__r.Email__c}" id="email" />
         <br/>
-        <apex:outputText value="Phone" />
+        <b>
+            <apex:outputText value="Phone" />
+        </b>
         <br/>
         <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
         <br/>
         <apex:panelGroup id="billingAddressGroup">
-            <apex:outputText value="Billing Address" />
+            <b>
+                <apex:outputText value="Billing Address" />
+            </b>
             <br/>
             <apex:outputText value="{!Bill__c.Account__r.BillingStreet}" id="BillingStreet" />
             <br/>
@@ -61,7 +60,9 @@
             <br/>
         </apex:panelGroup>
         <apex:panelGroup id="shippingAddressGroup">
-            <apex:outputText value="Shipping Address" />
+            <b>
+                <apex:outputText value="Shipping Address" />
+            </b>
             <br/>
             <apex:outputText value="{!Bill__c.Account__r.ShippingStreet}" id="ShippingStreet" />
             <br/>
