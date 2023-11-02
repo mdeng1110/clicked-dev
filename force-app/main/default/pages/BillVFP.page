@@ -29,8 +29,6 @@
         Hint: use apex:panelGrid and apex:PanelGroup to display this nicely.
     -->
 
-
-
     <apex:panelGrid columns="2" id="theGrid" width="100%">
         <apex:panelGroup id="emailAddress">
             <b>
@@ -93,6 +91,16 @@
         Build a table showing the Bill Summary (Bill Name, Bill Balance, and Bill Id) here.
         Hint: use apex:pageBlockTable to display this in a table.
     -->
-
+    <div style="font-size:10px">
+        <apex:pageBlock title="Bill Summary">
+            <div style="font-size:14px">
+                <apex:pageBlockTable value="{!Bill__c}" var="bill" width="100%" border="1px" style="th {border:none;}">
+                    <apex:column value="{!bill.Name}" />
+                    <apex:column value="{!bill.Balance__c}" />
+                    <apex:column value="{!bill.Bill_Id__c}" />
+                </apex:pageBlockTable>
+            </div>
+        </apex:pageBlock>
+    </div>
 
 </apex:page>
