@@ -31,7 +31,7 @@
 
 
 
-    <apex:panelGrid columns="2" id="theGrid">
+    <apex:panelGrid columns="2" id="theGrid" width="100%">
         <apex:panelGroup id="emailAddress">
             <b>
                 <apex:outputText value="Email" />
@@ -49,6 +49,7 @@
             <br/>
             <br/>
             <apex:outputText value="{!Bill__c.Account__r.Phone}" id="phone" />
+            <br/>
             <br/>
         </apex:panelGroup>
 
