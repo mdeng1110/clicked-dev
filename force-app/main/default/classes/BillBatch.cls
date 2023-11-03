@@ -9,8 +9,8 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //Hint: be sure to escape the single quotes surrounding \'Yes\' in your dynamic query!
         //query for the following fields:
         //Id, Bill_By_Email__c
-
-
+        String query = 'SELECT Id, Bill_by_Email__c FROM Account WHERE Active__c = \'Yes\' and Bill_by_Email__c != null';
+        return Database.getQueryLocator(query);
     }
 
     public void execute(Database.BatchableContext bc, List<Account> scope){
@@ -18,8 +18,7 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //a list of account Ids (this.receivesBillByEmail) to carry over to the finish method.
         //we will do this by iterating over scope and checking whether Bill_By_Email__c == TRUE.
         //This method will also call our BillAPI.getBills() method.
-
-
+        List<Id> receivesBillByEmail = new List<Id>();
     }
 
     public void finish(Database.BatchableContext bc){
