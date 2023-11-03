@@ -19,6 +19,12 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //we will do this by iterating over scope and checking whether Bill_By_Email__c == TRUE.
         //This method will also call our BillAPI.getBills() method.
         List<Id> receivesBillByEmail = new List<Id>();
+        for (Id bill_id : receivesBillByEmail) {
+            if (Bill_By_Email__ == True) {
+                receivesBillByEmail.add(bill_id);
+            }
+        }
+        BillAPI.getBills();
     }
 
     public void finish(Database.BatchableContext bc){
@@ -27,16 +33,23 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //customer in the receivesBillByEmail list. First, we must query for the recently created bills for
         //each account with the following nested query:
         //[SELECT Id, (SELECT Id FROM Bills__r ORDER BY CreatedDate DESC) FROM Account WHERE Id IN :this.receivesBillByEmail]
-
- 
+        String query = 'SELECT Id, Email__c, (SELECT Id FROM Bills__r ORDER BY CreatedDate DESC) FROM Account WHERE Id IN :this.receivesBillByEmail';
+        Database.QueryLocator q = Database.getQueryLocator(query);
         
         //We will then iterate over the results of this query and associate the Id of the most recent bill (value) with the
         //corresponding Id of the account Id (key) in a Map<Id, Id> that we will call billMap, using the .put(Id, Id)
         //method of the Map class:
         //https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_map.htm
         //we will also create a Map<Id, String> called emailMap, where we'll hold the Account Id (key) and account email (value).
-
-
+        Database.QueryLocatorIterator iterate = q.iterator();
+        Map<Id, Id> billMap = new Map<Id, Id>();
+        Map<Id, String> emailMap = new Map<Id, String>();
+        while (it.hasNext())
+        {
+            Account a = (Account).iterate.next();
+            billMap.put(a.Id, a.Bills__r[0].get('Id'));
+            emailMap.put(a.Id, a.Email__c);
+        }
 
         //Next, we are going to prepare to call our BillEmailer.sendEmails(Map<String, Blob> emailsWithBills)
         //method. The String in the map, which we'll call sendMap,will be the Account.Email__c field result, and the Blob
