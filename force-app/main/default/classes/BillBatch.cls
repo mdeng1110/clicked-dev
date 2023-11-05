@@ -18,10 +18,10 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //a list of account Ids (this.receivesBillByEmail) to carry over to the finish method.
         //we will do this by iterating over scope and checking whether Bill_By_Email__c == TRUE.
         //This method will also call our BillAPI.getBills() method.
-        List<Id> receivesBillByEmail = new List<Id>();
-        for (Id bill_id : receivesBillByEmail) {
-            if (Bill_By_Email__ == True) {
-                receivesBillByEmail.add(bill_id);
+        this.receivesBillByEmail = new List<Id>();
+        for (Account account : scope) {
+            if (account.Bill_By_Email__c) {
+                this.receivesBillByEmail.add(account.Id);
             }
         }
         BillAPI.getBills();
@@ -33,21 +33,23 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //customer in the receivesBillByEmail list. First, we must query for the recently created bills for
         //each account with the following nested query:
         //[SELECT Id, (SELECT Id FROM Bills__r ORDER BY CreatedDate DESC) FROM Account WHERE Id IN :this.receivesBillByEmail]
-        String query = 'SELECT Id, Email__c, (SELECT Id FROM Bills__r ORDER BY CreatedDate DESC) FROM Account WHERE Id IN :this.receivesBillByEmail';
-        Database.QueryLocator q = Database.getQueryLocator(query);
+        List<Account> accounts = [
+            SELECT Id, 
+            Email__c, 
+            (SELECT Id FROM Bills__r ORDER BY CreatedDate DESC) 
+            FROM Account WHERE Id IN :this.receivesBillByEmail
+        ];
         
         //We will then iterate over the results of this query and associate the Id of the most recent bill (value) with the
         //corresponding Id of the account Id (key) in a Map<Id, Id> that we will call billMap, using the .put(Id, Id)
         //method of the Map class:
         //https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_map.htm
         //we will also create a Map<Id, String> called emailMap, where we'll hold the Account Id (key) and account email (value).
-        Database.QueryLocatorIterator iterate = q.iterator();
         Map<Id, Id> billMap = new Map<Id, Id>();
         Map<Id, String> emailMap = new Map<Id, String>();
-        while (it.hasNext())
-        {
-            Account a = (Account).iterate.next();
-            billMap.put(a.Id, a.Bills__r[0].get('Id'));
+
+        for(Account a : accounts) {
+            billMap.put(a.Id, a.Bills__r[0].Id);
             emailMap.put(a.Id, a.Email__c);
         }
 
@@ -59,12 +61,18 @@ public with sharing class BillBatch implements Database.Batchable<sObject>, Data
         //PageReference pageRef = new PageReference('/apex/BillVFP?id=' + [BILLID]);
         //Blob pdfBlob = pageRef.getContentAsPDF();
         //hint: you'll need to use the .get() method of the Map class a couple of times here.
+        Map<String, Blob> sendMap = new Map<String, Blob>();
 
+        for(Id accountId : billMap.keySet()) {
+            String email = emailMap.get(accountId);
 
+            Pagereference pageRef = new Pagereference('/apex/BillVFP?=' + billMap.get(accountId));
+            Blob pdfBlob = pageRef.getContentAsPDF();
+            sendMap.put(email, pdfBlob);
+        }
 
         //finally, we will call our BillEmailer.sendEmails(sendMap) method. Remember, this method is VOID,
         //so there will be no return value;
-
-
+        BillEmailer.sendEmails(sendMap);
     }
 }
